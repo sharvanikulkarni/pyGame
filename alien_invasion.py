@@ -176,6 +176,24 @@ class AlienInvasion:
                 alien.rect.y += self.settings.fleet_drop_speed
             self.settings.fleet_direction *= -1
 
+    def _ship_hit(self):
+        '''respond to the ship being hit by the alien'''
+        #decrement ship_left
+        self.ship.ship_left -= 1
+
+        #get rid of any alien or bullets
+        self.aliens.empty()
+        self.bullets.empty()
+
+        #create a new fleet and center the ship
+        self._create_fleet()
+        self.ship.center_ship()
+
+        #pause
+        sleep(0.5)
+
+        
+
 
 if __name__=='__main__':
     #make a game instance, and run the game.
