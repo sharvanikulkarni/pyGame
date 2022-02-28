@@ -1,10 +1,13 @@
 import sys
+from time import sleep
 from matplotlib.style import available
 import pygame
 from settings import Settings
+from game_stats import GameStats
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
+
 
 class AlienInvasion:
     '''overall class to manage game assets and behaviour'''
@@ -19,6 +22,9 @@ class AlienInvasion:
         self.settings.screen_height = self.screen.get_rect().height
         #self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption("Alien Invasion")
+
+        #create an instance to store game statistics.
+        self.stats = GameStats(self)
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
