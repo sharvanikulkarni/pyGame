@@ -39,19 +39,29 @@ class AlienInvasion:
             self._update_screen()
 
     def _update_bullets(self):
-                '''update position of bullets and get rid of old bullets'''
-                #update bullet position
-                self.bullets.update()
+        '''update position of bullets and get rid of old bullets'''
+        #update bullet position
+        self.bullets.update()
             
 
-                #get rid of bullets that have disappeared
-                for bullet in self.bullets.copy():
-                    if bullet.rect.bottom <= 0:
-                        self.bullets.remove(bullet)
-                #print(len(self.bullets))
-                #check for any bullets that have hit the aliens
-                #if so, get rid of the bullet and the alien.
-                collions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+        #get rid of bullets that have disappeared
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
+        #print(len(self.bullets))
+        self._check_bullet_alien_collisions()        
+    
+    def _check_bullet_alien_collisions(self):
+        '''respond to bullet alien collision'''
+        #remove any bullets and aliens that have collided
+        #check for any bullets that have hit the aliens
+        #if so, get rid of the bullet and the alien.
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+
+        if not self.aliens:
+            #destroy existing bullets and create new fleet
+            self.bullets.empty()
+            self._create_fleet()
 
     def _check_events(self):
         '''respond to keypresses and mouse events'''
@@ -141,6 +151,10 @@ class AlienInvasion:
         '''check if the fleet is at an edge then update the position of all aliens in the fleet'''
         self._check_fleet_edges()
         self.aliens.update()
+
+        #look for alien-ship collision
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            print("Ship hit!!!")
 
     
     def _check_fleet_edges(self):
