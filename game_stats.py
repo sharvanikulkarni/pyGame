@@ -5,8 +5,8 @@ class GameStats:
         '''initialize statistics'''
         self.settings = ai_game.settings
         self.reset_stats()
-        #start alien invasion in the active state
-        self.game_active = True
+        #start game in the inactive state
+        self.game_active = False
 
     def reset_stats(self):
         #initialize stats that can change during the game
